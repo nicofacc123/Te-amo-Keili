@@ -1,25 +1,287 @@
 <!DOCTYPE html>
-<html>
-    <head >
-<title>Te Amo Keili!</title>
-    </head> 
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nosso Amor</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #ffeef0;
+      text-align: center;
+      padding: 20px;
+      overflow-x: hidden;
+      transition: background 0.6s ease;
+    }
 
-    <body>
-        <h1>
+    .tela-senha {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #fff0f5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
 
-Eu Te Amo Amorzinho!!
-        </h1>
-        <h2>
-            TE AMO LINDA
-        </h2>
-        <h3>
-            meu primeiro site é esse
-        </h3>
-                <p> 
-    eu te amo muito minha pequena vc é o amor de minha vida <b>
-        KEILI MB
-    </b>
-                </p>
-<p>amor da minha vida,te quero ate a eternidade</p>
-    </body>
+    .tela-senha input {
+      padding: 12px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .tela-senha button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff5ca4;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .tela-senha button:hover {
+      background-color: #e04b8a;
+    }
+
+    #conteudo {
+      display: none;
+    }
+
+    /* O resto do seu CSS continua normal... */
+    .nomes { font-size: 22px; color: #d6336c; margin: -10px 0 20px; font-weight: bold; }
+    #tempo { margin-bottom: 20px; font-size: 18px; color: #444; }
+    .btn {
+      background: #ff5ca4;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      color: white;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 90%;
+      max-width: 300px;
+    }
+    .btn:hover { background: #e04b8a; transform: scale(1.05); }
+    .foto {
+      margin-top: 30px;
+      border-radius: 20px;
+      max-width: 100%;
+      width: 300px;
+      height: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .surpresa {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #d6336c;
+      font-style: italic;
+      min-height: 30px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      animation: glow 2s ease-in-out infinite alternate;
+      overflow: hidden;
+      border-right: 2px solid #d6336c;
+    }
+    .surpresa.show { opacity: 1; }
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #fff0f5, 0 0 10px #ff69b4; }
+      to { text-shadow: 0 0 15px #ff99cc, 0 0 20px #ff69b4; }
+    }
+    .heart {
+      position: fixed;
+      top: -10px;
+      font-size: 24px;
+      color: #ff3366;
+      animation: fall 5s linear infinite;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔐 TELA DE SENHA -->
+  <div class="tela-senha" id="telaSenha">
+    <h2>Digite a senha para entrar</h2>
+    <input type="password" id="senhaInput" placeholder="Senha" />
+    <button onclick="verificarSenha()">Entrar</button>
+    <p id="erroSenha" style="color: red; margin-top: 10px;"></p>
+  </div>
+
+  <!-- 🔓 CONTEÚDO DO SITE -->
+  <div id="conteudo">
+    <h1>Nosso Relacionamento ❤️</h1>
+    <p class="nomes">Nícolas e Keili</p>
+    <p id="tempo"></p>
+
+    <button id="botaoTeAmo" class="btn" onclick="dizerTeAmo()">Te amo, Keili 💖</button>
+    <button id="botaoMensagem" class="btn" onclick="mensagemAleatoria()">Mensagem surpresa 💘</button>
+    <button class="btn" onclick="tocarAudio()">Ativar música 🎶</button>
+
+    <p id="mensagemSurpresa" class="surpresa"></p>
+
+   <img src="imagens/keili.jpeg" alt="Foto de Keili" class="foto" />
+<audio id="audioAmor" loop src="audio/alianca.mp3"></audio>
+
+  </div>
+
+  <!-- 🔧 JAVASCRIPT -->
+  <script>
+    // SENHA
+    function verificarSenha() {
+      const senha = document.getElementById("senhaInput").value;
+      if (senha === "11022025") {
+        document.getElementById("telaSenha").style.display = "none";
+        document.getElementById("conteudo").style.display = "block";
+      } else {
+        document.getElementById("erroSenha").innerText = "Senha incorreta!";
+      }
+    }
+
+    // ANIMAÇÕES DO SITE
+    for (let i = 0; i < 30; i++) {
+      let heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "💗";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDelay = Math.random() * 5 + "s";
+      heart.style.fontSize = (Math.random() * 20 + 16) + "px";
+      document.body.appendChild(heart);
+    }
+
+    const inicioNamoro = new Date("2025-03-28T00:00:00");
+    const primeiroBeijo = new Date("2025-03-12T00:00:00");
+
+    function formatarData(data) {
+      const opcoes = { day: 'numeric', month: 'long', year: 'numeric' };
+      return data.toLocaleDateString('pt-BR', opcoes);
+    }
+
+    function atualizarTempo() {
+      const agora = new Date();
+      const diff = agora - inicioNamoro;
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const segundos = Math.floor((diff / 1000) % 60);
+      const meses = (agora.getFullYear() - inicioNamoro.getFullYear()) * 12 + (agora.getMonth() - inicioNamoro.getMonth());
+
+      document.getElementById("tempo").innerHTML = `
+        Estamos juntos desde <b>${formatarData(inicioNamoro)}</b><br>
+        💋 Primeiro beijo: ${formatarData(primeiroBeijo)}<br><br>
+        ⏳ <b>${dias}</b> dias, <b>${horas}</b>h <b>${minutos}</b>min <b>${segundos}</b>s juntos<br>
+        🗓️ <b>${meses}</b> meses de amor
+      `;
+    }
+    setInterval(atualizarTempo, 1000);
+    atualizarTempo();
+
+    function dizerTeAmo() {
+      document.body.style.transition = 'background 0.3s ease';
+      document.body.style.background = '#ffe3f0';
+      document.body.style.boxShadow = '0 0 40px #ff69b4 inset';
+      for (let i = 0; i < 60; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = i % 2 === 0 ? "💞" : "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDelay = Math.random() * 1.5 + "s";
+        heart.style.fontSize = (Math.random() * 40 + 16) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
+      let cores = ['#ffe3f0', '#fff0f5', '#ffeef0'];
+      let i = 0;
+      let piscar = setInterval(() => {
+        document.body.style.background = cores[i % cores.length];
+        i++;
+        if (i > 6) {
+          clearInterval(piscar);
+          document.body.style.background = '#ffeef0';
+          document.body.style.boxShadow = 'none';
+        }
+      }, 300);
+    }
+
+    let escrevendo = false;
+    let mensagemVisivel = false;
+    let intervaloDigitacao;
+
+    function mensagemAleatoria() {
+      const el = document.getElementById("mensagemSurpresa");
+      const btn1 = document.getElementById("botaoTeAmo");
+      const btn2 = document.getElementById("botaoMensagem");
+
+      if (mensagemVisivel) {
+        clearInterval(intervaloDigitacao);
+        el.classList.remove("show");
+        el.textContent = "";
+        mensagemVisivel = false;
+        escrevendo = false;
+        btn1.disabled = false;
+        btn2.disabled = false;
+        return;
+      }
+
+      if (escrevendo) return;
+
+      const mensagens = [
+        "Você me fez mudar, para melhor. 💗",
+        "Nosso amor é vital, é nosso oxigênio...",
+        "Em seus olhos eu vejo nosso futuro...💘",
+        "Com você, até segunda-feira é feliz ❤️",
+        "Ninguém mais feliz que eu e você...💞",
+        "Seu abraço é o meu lar ",
+        "Eu quero que você se sinta única...",
+        "Eu sou feito para você, e você pra mim.",
+        "Meu primeiro e ultimo beijo.",
+        "Eu te amo mb.",
+        "A primeira e ultima pessoa que eu irei me apaixonar.",
+        "Mas se um dia eu te encontrar, do jeito que sonhei, quem sabe ser seu par perfeito...💓",
+        "-Eu acho que você é a pesso certa 💕",
+        "Eu te amo minha pequena. ❤️"
+      ];
+
+      const sorteada = mensagens[Math.floor(Math.random() * mensagens.length)];
+      escrevendo = true;
+      mensagemVisivel = true;
+      el.textContent = "";
+      el.classList.add("show");
+      btn1.disabled = true;
+      btn2.disabled = true;
+
+      let i = 0;
+      intervaloDigitacao = setInterval(() => {
+        el.textContent += sorteada.charAt(i);
+        i++;
+        if (i >= sorteada.length) {
+          clearInterval(intervaloDigitacao);
+          escrevendo = false;
+          btn1.disabled = false;
+          btn2.disabled = false;
+        }
+      }, 60);
+    }
+
+    function tocarAudio() {
+      const audio = document.getElementById("audioAmor");
+      audio.play();
+    }
+  </script>
+</body>
 </html>
